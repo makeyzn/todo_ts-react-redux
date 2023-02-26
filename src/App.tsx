@@ -24,6 +24,12 @@ const App = () => {
       completed: false,
     }
     setTodos([...todos, newPost]);
+    setValue('');
+  }
+
+  const removeTask = (id: number) => {
+    let filtered = todos.filter(t => t.id !== id);
+    setTodos(filtered);
   }
 
   return (
@@ -36,7 +42,7 @@ const App = () => {
         <div>
           <input type="checkbox" checked={t.completed}/>
           <span>{t.title}</span>
-          <button>x</button>
+          <button onClick={() => removeTask(t.id)}>x</button>
         </div>
       )}
 
