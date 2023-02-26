@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export type TaskType = {
+  id: number;
+  title: string;
+  completed: boolean;
 }
 
-export default App;
+const App = () => {
+  const [todos, setTodos] = useState<Array<TaskType>>([
+    {id: 1, title: 'html', completed: true},
+    {id: 2, title: 'js', completed: true},
+    {id: 3, title: 'react', completed: true},
+    {id: 4, title: 'redux', completed: false},
+  ]);
+
+  const [value, setValue] = useState<string>('');
+
+  const addNewPost = (e: any) => {
+    e.preventDefault();
+    const newPost = {
+      id: Date.now(),
+      title: value,
+      completed: false,
+    }
+    setTodos([...todos, newPost]);
+  }
+
+  return (
+    <div>
+      <form>
+        <input value={value} type="text" onChange={e => setValue(e.target.value)}/>
+        <button onClick={addNewPost}>Добавить</button>
+      </form>
+      {todos.map(t => 
+        <div>
+          <input type="checkbox" checked={t.completed}/>
+          <span>{t.title}</span>
+          <button>x</button>
+        </div>
+      )}
+
+
+    </div>
+  )
+}
+
+export default App
