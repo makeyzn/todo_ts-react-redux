@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import AddForm from './components/AddForm';
+import Buttons from './components/Buttons';
 
 export type TaskType = {
   id: number;
@@ -16,19 +18,11 @@ const App = () => {
     {id: 4, title: 'redux', completed: false},
   ]);
 
-  const [value, setValue] = useState<string>('');
-
   const [filterTodos, setFilterTodos] = useState<FilterType>("all");
 
-  const addNewTodo = (e: any) => {
-    e.preventDefault();
-    const newPost = {
-      id: Date.now(),
-      title: value,
-      completed: false,
-    }
+
+  const createTodo = (newPost: any) => {
     setTodos([...todos, newPost]);
-    setValue('');
   }
 
   const removeTodo = (id: number) => {
@@ -58,14 +52,9 @@ const App = () => {
     filteredTodos = todos.filter(t => t.completed === true)
   }
 
-
-
   return (
     <div>
-      <form>
-        <input value={value} type="text" onChange={e => setValue(e.target.value)}/>
-        <button onClick={addNewTodo}>Добавить</button>
-      </form>
+      <AddForm create={createTodo}/>
       {filteredTodos.map(t => 
         <div>
           <input type="checkbox" checked={t.completed} onChange={() => changeCompleted(t.id)}/>
@@ -73,12 +62,7 @@ const App = () => {
           <button onClick={() => removeTodo(t.id)}>x</button>
         </div>
       )}
-      <div>
-        <button onClick={() => changeFilter("all")}>all</button>
-        <button onClick={() => changeFilter("active")}>active</button>
-        <button onClick={() => changeFilter("completed")}>completed</button>
-      </div>
-
+      <Buttons changeFilter={changeFilter}/>
     </div>
   )
 }
