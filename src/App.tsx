@@ -4,7 +4,9 @@ export type TaskType = {
   id: number;
   title: string;
   completed: boolean;
-}
+};
+
+export type FilterType = "all" | "active" | "completed";
 
 const App = () => {
   const [todos, setTodos] = useState<Array<TaskType>>([
@@ -16,7 +18,9 @@ const App = () => {
 
   const [value, setValue] = useState<string>('');
 
-  const addNewPost = (e: any) => {
+  const [filterTodos, setFilterTodos] = useState<FilterType>("all");
+
+  const addNewTodo = (e: any) => {
     e.preventDefault();
     const newPost = {
       id: Date.now(),
@@ -27,25 +31,53 @@ const App = () => {
     setValue('');
   }
 
-  const removeTask = (id: number) => {
+  const removeTodo = (id: number) => {
     let filtered = todos.filter(t => t.id !== id);
     setTodos(filtered);
   }
+
+  const changeFilter = (value: FilterType) => {
+    setFilterTodos(value);
+  }
+
+  const changeCompleted = (id: number) => {
+    const change = todos.filter(t => {
+      if(t.id === id) {
+        t.completed = !t.completed
+      }
+      return t;
+    })
+    setTodos(change);
+  } 
+
+  let filteredTodos = todos;
+  if(filterTodos === 'active') {
+    filteredTodos = todos.filter(t => t.completed === false)
+  }
+  if(filterTodos === 'completed') {
+    filteredTodos = todos.filter(t => t.completed === true)
+  }
+
+
 
   return (
     <div>
       <form>
         <input value={value} type="text" onChange={e => setValue(e.target.value)}/>
-        <button onClick={addNewPost}>Добавить</button>
+        <button onClick={addNewTodo}>Добавить</button>
       </form>
-      {todos.map(t => 
+      {filteredTodos.map(t => 
         <div>
-          <input type="checkbox" checked={t.completed}/>
+          <input type="checkbox" checked={t.completed} onChange={() => changeCompleted(t.id)}/>
           <span>{t.title}</span>
-          <button onClick={() => removeTask(t.id)}>x</button>
+          <button onClick={() => removeTodo(t.id)}>x</button>
         </div>
       )}
-
+      <div>
+        <button onClick={() => changeFilter("all")}>all</button>
+        <button onClick={() => changeFilter("active")}>active</button>
+        <button onClick={() => changeFilter("completed")}>completed</button>
+      </div>
 
     </div>
   )
