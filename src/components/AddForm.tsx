@@ -1,16 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../redux/todoSlice';
 
 const AddForm = ({create}: any) => {
     const [value, setValue] = useState<string>('');
 
+    const dispatch = useDispatch();
+
     const addNewTodo = (e: any) => {
         e.preventDefault();
-        const newPost = {
-          id: Date.now(),
+        dispatch(addTodo({
           title: value,
-          completed: false,
-        }
-        create(newPost)
+        }))
       }
   return (
       <form>
