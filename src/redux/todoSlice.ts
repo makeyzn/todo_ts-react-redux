@@ -1,16 +1,16 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { json } from 'stream/consumers';
 
-export const getTodosAsync:any = createAsyncThunk(
-    'todos/getTodosAsync',
-    async () => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos?_start=0&_limit=7');
-        if(response.ok) {
-            const todos = await response.json();
-            return {todos}
-        }
-    }
-);
+// export const getTodosAsync:any = createAsyncThunk(
+//     'todos/getTodosAsync',
+//     async () => {
+//         const response = await fetch('https://jsonplaceholder.typicode.com/todos?_start=0&_limit=7');
+//         if(response.ok) {
+//             const todos = await response.json();
+//             return {todos}
+//         }
+//     }
+// );
 
 // export const addTodoAsync: any = createAsyncThunk(
 //     'todos/addTodoAsync',
@@ -61,14 +61,14 @@ const todoSlice = createSlice({
             return state.filter((todo) => todo.id !== action.payload.id)
         },
     },
-    extraReducers: {
-        [getTodosAsync.fulfilled]: (state: any, action: any) => {
-            return action.payload.todos
-        },
+    // extraReducers: {
+    //     [getTodosAsync.fulfilled]: (state: any, action: any) => {
+    //         return action.payload.todos
+    //     },
         // [addTodoAsync.fulfilled]: (state: any, action: any) => {
         //     state.push(action.payload.todo)
         // }
-    },
+    // },
 });
 
 export const { addTodo, toggleComplete, deleteTodo } = todoSlice.actions;

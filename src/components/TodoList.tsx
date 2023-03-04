@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import TodoItem from './TodoItem';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTodosAsync } from '../redux/todoSlice';
+// import { getTodosAsync } from '../redux/todoSlice';
 
 export type TaskType = {
     id: number;
@@ -10,12 +10,12 @@ export type TaskType = {
   };
 
 const TodoList = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const todos = useSelector((state: any) => state.todos)
 
-    useEffect(() => {
-        dispatch(getTodosAsync());
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getTodosAsync());
+    // }, [dispatch])
 
   return (
     <div>
