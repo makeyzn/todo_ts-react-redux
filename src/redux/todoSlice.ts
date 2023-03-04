@@ -1,4 +1,36 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { json } from 'stream/consumers';
+
+export const getTodosAsync:any = createAsyncThunk(
+    'todos/getTodosAsync',
+    async () => {
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos?_start=0&_limit=7');
+        if(response.ok) {
+            const todos = await response.json();
+            return {todos}
+        }
+    }
+);
+
+// export const addTodoAsync: any = createAsyncThunk(
+//     'todos/addTodoAsync',
+//     async (payload) => {
+//         const response = await fetch('https://jsonplaceholder.typicode.com/todos?_start=0&_limit=7', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({title: payload.title})
+//         })
+//         if(response.ok) {
+//             const todo = await response.json();
+//             return { todo };
+//         }
+//     }
+// );
+
+
+
 
 const initialState = [
     {id: 1, title: 'html', completed: true},
@@ -27,7 +59,15 @@ const todoSlice = createSlice({
         },
         deleteTodo: (state, action) => {
             return state.filter((todo) => todo.id !== action.payload.id)
-        }
+        },
+    },
+    extraReducers: {
+        [getTodosAsync.fulfilled]: (state: any, action: any) => {
+            return action.payload.todos
+        },
+        // [addTodoAsync.fulfilled]: (state: any, action: any) => {
+        //     state.push(action.payload.todo)
+        // }
     },
 });
 

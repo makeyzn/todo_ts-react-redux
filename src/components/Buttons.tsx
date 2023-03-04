@@ -1,4 +1,4 @@
-import React, {useState,} from 'react'
+import React, {useState} from 'react'
 
 export type FilterType = "all" | "active" | "completed";
 

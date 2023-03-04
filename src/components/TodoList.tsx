@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import TodoItem from './TodoItem';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTodosAsync } from '../redux/todoSlice';
 
 export type TaskType = {
     id: number;
@@ -9,12 +10,17 @@ export type TaskType = {
   };
 
 const TodoList = () => {
+    const dispatch = useDispatch();
     const todos = useSelector((state: any) => state.todos)
+
+    useEffect(() => {
+        dispatch(getTodosAsync());
+    }, [dispatch])
 
   return (
     <div>
         {todos.map((todo: any) => (
-				<TodoItem id={todo.id} title={todo.title} completed={todo.completed} />
+				<TodoItem id={todo.id} title={todo.title} completed={todo.completed} key={todo.id}/>
 	    ))}
     </div>
   )
